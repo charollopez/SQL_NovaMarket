@@ -5,7 +5,7 @@
 ---
 
 ## 🚀 Guía Rápida: Empieza Aquí
-Si es tu primera vez o necesitas configurar tu entorno, lee la **[Guía de Configuración del Entorno](file:///Users/macbookpro/Developer/Learning/SQL/GUIA_CONFIGURACION_ENTORNO.md)**.
+Si es tu primera vez o necesitas configurar tu entorno, lee la **[Guía de Configuración](file:///Users/macbookpro/Developer/Learning/SQL/00_Fundamentos/02_Guia_Configuracion_Antigravity.md)**.
 
 ---
 
@@ -56,5 +56,5 @@ Si necesitas compartir este material con tus estudiantes, sigue estos pasos:
     - Indícales que hagan clic en el botón verde **"Code"** y luego en **"Download ZIP"**.
     - O bien, si tienen Git instalado, que abran la **Terminal** (Mac/Linux) o **Símbolo del Sistema / PowerShell** (Windows) y escriban:
       `git clone https://github.com/edwardzd/SQL_NovaMarket.git`
-3.  **Primer Paso:** Recuérdales que deben empezar leyendo la **[Guía de Configuración del Entorno](file:///Users/macbookpro/Developer/Learning/SQL/GUIA_CONFIGURACION_ENTORNO.md)** para que Antigravity funcione correctamente en sus equipos.
+3.  **Primer Paso:** Recuérdales que deben empezar leyendo la **[Guía de Configuración](file:///Users/macbookpro/Developer/Learning/SQL/00_Fundamentos/02_Guia_Configuracion_Antigravity.md)** para que Antigravity funcione correctamente en sus equipos.
 4.  **Actualizaciones:** Si realizas cambios en clase o en el script de carga, recuerda ejecutar `git push` para que los estudiantes vean la última versión al descargar/clonar.
