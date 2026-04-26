@@ -172,7 +172,7 @@ Antes de crear el archivo, debes estar "parado" dentro de la carpeta de la sesi�
 **Instrucci처n (El ciclo de 3 pasos):**
 ```bash
 git add .
-git commit -m "Soluci처n Sesi처n 07 terminada"
+git commit -m "Soluci처n Sesi처n 06 terminada sharol"
 git push origin main
 ```
 
