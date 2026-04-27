@@ -3,7 +3,7 @@ _Soluciones_Privadas/
 
 # SQLite Databases
 # 🔒 Por seguridad, ignoramos las bases de datos por defecto.
-*.db
+# *.db
 
 
 
