@@ -3,8 +3,12 @@ import sqlite3
 import os
 
 # ⚙️ CONFIGURACIÓN INICIAL
-EXCEL_FILE = '04_Ventas_Datos_Limpios_S03.xlsx'
-DATABASE_FILE = 'Novamarket_S07.db'
+# Obtenemos la ruta de la carpeta donde está guardado este script
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Unimos la ruta de la carpeta con el nombre de los archivos
+EXCEL_FILE = os.path.join(BASE_DIR, '04_Ventas_Datos_Limpios_S03.xlsx')
+DATABASE_FILE = os.path.join(BASE_DIR, 'Novamarket_S07.db')
 
 def cargar_y_modelar():
     print(f"🚀 Iniciando carga desde: {EXCEL_FILE}...")
