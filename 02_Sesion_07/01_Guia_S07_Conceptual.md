@@ -70,11 +70,10 @@ UNION ALL SELECT 'FactVentas', COUNT(*) FROM FactVentas;
 SELECT * FROM FactVentas LIMIT 10;
 ```
 
-- ¿Ves nombres de ciudad o números en la columna CiudadID? ___________
-- ¿Cómo sabes cuál ciudad corresponde a CiudadID=6? ___________
+- ¿Ves nombres de ciudad o números en la columna CiudadID? _____se observan numeros
+- ¿Cómo sabes cuál ciudad corresponde a CiudadID=6? ___________se puede consultar en la tabla DimCiudad con su id
 
 ### A2 — ¿Cuántas transacciones hay?
-
 ```sql
 SELECT COUNT(*) AS Total_Transacciones FROM FactVentas;
 
@@ -86,8 +85,8 @@ ORDER BY Transacciones DESC;
 -- (GROUP BY lo aprenderás en detalle en S8)
 ```
 
-- ¿Qué CiudadID tiene más transacciones? ___________
-- ¿Cuántas tiene CiudadID=6 (Leticia)? ___________
+- ¿Qué CiudadID tiene más transacciones? ___________ciudad id 2 tiene 92 transacciones.
+- ¿Cuántas tiene CiudadID=6 (Leticia)? ___________76 transacciones.
 
 ### A3 — El diccionario: productos y ciudades
 
@@ -111,7 +110,7 @@ ORDER BY Factor_Envio DESC;
 ```
 
 - ¿Cuál producto tiene mayor margen %? ___________
-- ¿Cuánto cuesta el envío base a Leticia? ___________
+- ¿Cuánto cuesta el envío base a Leticia? ___________ no me deja correr esta sesion de codigocódigo 
 
 ---
 
@@ -169,7 +168,7 @@ FROM FactVentas
 WHERE CiudadID = 6;
 ```
 
-- ¿Cuántas transacciones tiene Leticia? ___________
+- ¿Cuántas transacciones tiene Leticia? ___________76 transacciones
 
 ### C2 — Mayor que (>) — Descuentos agresivos
 
@@ -183,8 +182,8 @@ WHERE Descuento_Pct > 0.15
 ORDER BY Descuento_Pct DESC;
 ```
 
-- ¿Cuántas ventas tienen descuento > 15%? ___________
-- ¿De qué fecha son casi todas? ¿Qué evento fue ese día? ___________
+- ¿Cuántas ventas tienen descuento > 15%? ___________todas las 46 filas tienen un descuento mayor a 15%
+- ¿De qué fecha son casi todas? ¿Qué evento fue ese día? ___________son fechas de noviembre del año 2023 en dias de black friday. 
 
 ### C3 — AND — El peor escenario: Leticia con descuento
 
@@ -222,7 +221,7 @@ ORDER BY FechaID
 LIMIT 20;
 ```
 
-- ¿Cuántas ventas hay en noviembre en total? ___________
+- ¿Cuántas ventas hay en noviembre en total? ___________las 155 filas son ventas del mes de noviembre.
 
 ### C6 — LIKE — Buscar texto en dimensiones
 
@@ -250,7 +249,7 @@ FROM DimFecha
 WHERE Evento_Especial IS NOT NULL;
 ```
 
-- ¿Cuántos días tienen evento especial? ___________
+- ¿Cuántos días tienen evento especial? ___________ 
 - ¿Cuál es ese evento y en qué fecha? ___________
 
 ---
@@ -266,7 +265,7 @@ ORDER BY Costo_Envio DESC
 LIMIT 10;
 ```
 
-- ¿Qué CiudadID domina el top 10? ___________
+- ¿Qué CiudadID domina el top 10? ___________la ciudad con id 2 es la que domina
 - ¿Coincide con lo que aprendiste sobre Leticia en S4? ___________
 
 ### D2 — Las 10 transacciones con peor margen aproximado
@@ -286,7 +285,7 @@ ORDER BY Margen_Aproximado ASC
 LIMIT 10;
 ```
 
-- ¿El peor margen es negativo? ¿De qué ciudad? ___________
+- ¿El peor margen es negativo? ¿De qué ciudad? ___________(2, -1122.5)
 
 ### D3 — Combinando todo: las 5 ventas de Leticia con mayor costo
 
@@ -330,11 +329,13 @@ WHERE FechaID BETWEEN 20230901 AND 20230930;
 
 ```sql
 -- Tu consulta aquí:
-
+SELECT COUNT(*) AS Ventas_Sep
+FROM FactVentas
+WHERE FechaID BETWEEN 20230901 AND 20230930;
 
 ```
 
-Resultado: ___________ filas
+Resultado: _____153 VENTAS EN SEPT.______ filas
 
 ---
 
@@ -345,11 +346,20 @@ Resultado: ___________ filas
 ```sql
 -- Tu consulta aquí:
 
+SELECT
+    TransaccionID,FechaID, CiudadID, Descuento_Pct, Precio_Venta ,
+    ROUND(Precio_Venta * Cantidad * (1 - Descuento_Pct), 2) AS Venta_Neta
+FROM FactVentas
+WHERE CiudadID <> 6
+  AND Descuento_Pct > 0
+ORDER BY Descuento_Pct DESC;
+LIMIT 10;
+
 
 ```
 
-- ¿De qué fecha son la mayoría? ___________
-- ¿Qué dice eso sobre el Black Friday? ___________
+- ¿De qué fecha son la mayoría? _________La mayoria son del mes de noviembre del 2023__
+- ¿Qué dice eso sobre el Black Friday? ___________que los dias de black friday son economicamente muy activos y con descuentos
 
 ---
 
@@ -359,12 +369,18 @@ Resultado: ___________ filas
 
 ```sql
 -- Tu consulta aquí:
+SELECT
+    TransaccionID, FechaID, CiudadID, Descuento_Pct,  Costo_Envio,
+    ROUND(Precio_Venta * Cantidad * (1 - Descuento_Pct), 2) AS Venta_Neta
+FROM FactVentas
+WHERE Descuento_Pct > 0.20 AND Costo_Envio > 500
+ORDER BY Descuento_Pct DESC;
 
 
 ```
 
-- Resultado: ___________ filas
-- ¿Por qué estas ventas destruyen más valor que las demás? ___________
+- Resultado: _____6______ filas
+- ¿Por qué estas ventas destruyen más valor que las demás? ___________porque tienen descuentos bastante amplios y un envio considerable, lo que se transformaria en poco margen de ganancia.
 
 ---
 
@@ -378,7 +394,8 @@ Resultado: ___________ filas
 
 Tu respuesta:
 
-___________________________________________________________________________
+___las columnas que se deben conectar entre DimCiudad y FactVentas son las que tienen relacion entre si, ej.ciudadID con ciudadID
+para que tengan una relacion dentro de la base de datos.____________________________________________________________________
 
 ___________________________________________________________________________
 
