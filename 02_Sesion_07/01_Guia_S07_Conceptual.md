@@ -29,7 +29,7 @@ Ejecuta esto para confirmar que la BD de S6 está correctamente cargada:
 
 SELECT 'DimProducto' AS Tabla, COUNT(*) AS Registros FROM DimProducto
 UNION ALL SELECT 'DimCiudad',  COUNT(*) FROM DimCiudad
-UNION ALL SELECT 'DimFecha',   COUNT(*) FROM DimFecha
+--UNION ALL SELECT 'DimFecha',   COUNT(*) FROM DimFecha
 UNION ALL SELECT 'FactVentas', COUNT(*) FROM FactVentas;
 
 -- Resultado esperado:
@@ -71,11 +71,13 @@ SELECT * FROM FactVentas LIMIT 10;
 ```
 
 - ¿Ves nombres de ciudad o números en la columna CiudadID? _____se observan numeros
-- ¿Cómo sabes cuál ciudad corresponde a CiudadID=6? ___________se puede consultar en la tabla DimCiudad con su id
+- ¿Cómo sabes cuál ciudad corresponde a CiudadID=6? ___barranquilla________se puede consultar en la tabla DimCiudad con su id o abriendo la base de datos Novamarket_S07.db
 
 ### A2 — ¿Cuántas transacciones hay?
+
 ```sql
 SELECT COUNT(*) AS Total_Transacciones FROM FactVentas;
+
 
 -- Distribución por ciudad
 SELECT CiudadID, COUNT(*) AS Transacciones
@@ -86,27 +88,14 @@ ORDER BY Transacciones DESC;
 ```
 
 - ¿Qué CiudadID tiene más transacciones? ___________ciudad id 2 tiene 92 transacciones.
-- ¿Cuántas tiene CiudadID=6 (Leticia)? ___________76 transacciones.
+- ¿Cuántas tiene CiudadID=6 (barranquilla)? ___________76 transacciones.
 
 ### A3 — El diccionario: productos y ciudades
 
 ```sql
 -- Productos con margen calculado
-SELECT
-    Nombre                                           AS Producto,
-    Categoria,
-    Precio_Unitario,
-    Costo_Unitario,
-    (Precio_Unitario - Costo_Unitario)               AS Margen_Bruto,
-    ROUND((Precio_Unitario - Costo_Unitario)
-          / Precio_Unitario * 100, 1)                AS Margen_Pct
-FROM DimProducto
-ORDER BY Margen_Pct DESC;
 
--- Ciudades ordenadas por costo de envío
-SELECT Nombre, Region, Factor_Envio, Costo_Envio_Base
-FROM DimCiudad
-ORDER BY Factor_Envio DESC;
+modificar codigo, porque no exisyen algunas variables en la base de datos
 ```
 
 - ¿Cuál producto tiene mayor margen %? ___________
@@ -160,15 +149,15 @@ LIMIT 20;
 ```sql
 SELECT TransaccionID, FechaID, CiudadID, Cantidad, Precio_Venta, Costo_Envio
 FROM FactVentas
-WHERE CiudadID = 6
+WHERE CiudadID = 2
 ORDER BY FechaID;
 
 SELECT COUNT(*) AS Transacciones_Leticia
 FROM FactVentas
-WHERE CiudadID = 6;
+WHERE CiudadID = 2;
 ```
 
-- ¿Cuántas transacciones tiene Leticia? ___________76 transacciones
+- ¿Cuántas transacciones tiene Leticia? ___________92 transacciones
 
 ### C2 — Mayor que (>) — Descuentos agresivos
 
@@ -193,7 +182,7 @@ SELECT
     TransaccionID, CiudadID, Descuento_Pct, Costo_Envio,
     ROUND(Precio_Venta * Cantidad * (1 - Descuento_Pct), 2) AS Venta_Neta
 FROM FactVentas
-WHERE CiudadID = 6
+WHERE CiudadID = 2
   AND Descuento_Pct > 0
 ORDER BY Descuento_Pct DESC;
 ```
@@ -204,7 +193,7 @@ ORDER BY Descuento_Pct DESC;
 -- Barranquilla (4) y Cartagena (5)
 SELECT TransaccionID, CiudadID, Costo_Envio
 FROM FactVentas
-WHERE CiudadID IN (4, 5)
+WHERE CiudadID IN (6, 3)
 ORDER BY CiudadID, Costo_Envio DESC
 LIMIT 15;
 ```
@@ -249,7 +238,7 @@ FROM DimFecha
 WHERE Evento_Especial IS NOT NULL;
 ```
 
-- ¿Cuántos días tienen evento especial? ___________ 
+- ¿Cuántos días tienen evento especial? ___________ la base de datos de DimFecha no se encuentra.
 - ¿Cuál es ese evento y en qué fecha? ___________
 
 ---
@@ -266,7 +255,7 @@ LIMIT 10;
 ```
 
 - ¿Qué CiudadID domina el top 10? ___________la ciudad con id 2 es la que domina
-- ¿Coincide con lo que aprendiste sobre Leticia en S4? ___________
+- ¿Coincide con lo que aprendiste sobre Leticia en S4? ___________la id2 ciudad es leticia
 
 ### D2 — Las 10 transacciones con peor margen aproximado
 
@@ -300,7 +289,7 @@ SELECT
     ROUND(Precio_Venta * Cantidad * (1 - Descuento_Pct) - Costo_Envio, 2)
         AS Margen_Aproximado
 FROM FactVentas
-WHERE CiudadID = 6
+WHERE CiudadID = 2
 ORDER BY Costo_Envio DESC
 LIMIT 5;
 ```
@@ -341,7 +330,7 @@ Resultado: _____153 VENTAS EN SEPT.______ filas
 
 ### Desafío 2 — Medio
 
-**Pregunta:** Muestra las 10 transacciones con mayor `Descuento_Pct` que **no** sean de Leticia (`CiudadID <> 6`). Columnas: `TransaccionID`, `CiudadID`, `Descuento_Pct`, `Precio_Venta`.
+**Pregunta:** Muestra las 10 transacciones con mayor `Descuento_Pct` que **no** sean de Leticia (`CiudadID <> 2`). Columnas: `TransaccionID`, `CiudadID`, `Descuento_Pct`, `Precio_Venta`.
 
 ```sql
 -- Tu consulta aquí:
@@ -350,7 +339,7 @@ SELECT
     TransaccionID,FechaID, CiudadID, Descuento_Pct, Precio_Venta ,
     ROUND(Precio_Venta * Cantidad * (1 - Descuento_Pct), 2) AS Venta_Neta
 FROM FactVentas
-WHERE CiudadID <> 6
+WHERE CiudadID <> 2
   AND Descuento_Pct > 0
 ORDER BY Descuento_Pct DESC;
 LIMIT 10;
@@ -359,7 +348,7 @@ LIMIT 10;
 ```
 
 - ¿De qué fecha son la mayoría? _________La mayoria son del mes de noviembre del 2023__
-- ¿Qué dice eso sobre el Black Friday? ___________que los dias de black friday son economicamente muy activos y con descuentos
+- ¿Qué dice eso sobre el Black Friday? ___________que los dias de black friday son economicamente muy activos y con descuentos en distintas ciudades.
 
 ---
 
@@ -388,7 +377,7 @@ ORDER BY Descuento_Pct DESC;
 
 > **La pregunta que todavía no puedes responder completamente:**
 >
-> En todos los ejercicios viste `CiudadID=6` pero no el nombre `'Leticia'`. Para verlo necesitas unir `FactVentas` con `DimCiudad`.
+> En todos los ejercicios viste `CiudadID=2` pero no el nombre `'Leticia'`. Para verlo necesitas unir `FactVentas` con `DimCiudad`.
 >
 > Escribe con tus palabras (no en SQL todavía): ¿qué columna de `FactVentas` debería conectarse con qué columna de `DimCiudad`, y para qué? Esa idea es exactamente lo que aprenderás en S9 con `JOIN`.
 
