@@ -39,7 +39,7 @@ SELECT
     TransaccionID,
     FechaID,
     CiudadID,
-    Cantidad,
+    Cantidad,gi
     Precio_Venta,
     Costo_Envio
 FROM FactVentas
