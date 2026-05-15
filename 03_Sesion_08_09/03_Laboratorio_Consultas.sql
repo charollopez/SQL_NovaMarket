@@ -19,6 +19,8 @@ SELECT CiudadID,
     COUNT(*) AS Filas
 FROM FactVentas
 GROUP BY CiudadID;
+--Respuesta paso 1:
+--Al listar sin agrupar se ven todas las filas individuales (500), mientras que al usar GROUP BY logramos comprimir la información y obtener la cantidad de transacciones totales por cada ciudad.
 -- Paso 2: El veredicto de Leticia con GROUP BY (Usando IDs)
 SELECT CiudadID,
     COUNT(*) AS Transacciones,
@@ -36,6 +38,8 @@ SELECT CiudadID,
 FROM FactVentas
 GROUP BY CiudadID
 ORDER BY Margen_Aproximado ASC;
+--Respuesta paso 2:
+--Con esta consulta agrupada logramos ver el rendimiento total de cada CiudadID, incluyendo las transacciones, la venta neta, el costo de envío total y el margen aproximado.
 -- Paso 3: SUM vs AVG
 SELECT CiudadID,
     ROUND(SUM(Costo_Envio), 2) AS Costo_TOTAL,
@@ -43,6 +47,8 @@ SELECT CiudadID,
 FROM FactVentas
 WHERE CiudadID = 6
 GROUP BY CiudadID;
+--Respuesta paso 3:
+--Esta consulta nos permite comparar el costo total de envío frente al costo de envío promedio por transacción para la ciudad con ID 6 (Leticia).
 -- ══ PARTE 2 — JOIN (Nombres Reales) ════════════════════════════
 -- Paso 4: El primer JOIN: 'Leticia' en lugar de '6'
 SELECT f.TransaccionID,
@@ -53,6 +59,8 @@ FROM FactVentas f
     INNER JOIN DimCiudad c ON f.CiudadID = c.CiudadID
 WHERE c.Ciudad = 'Leticia'
 LIMIT 5;
+--Respuesta paso 4:
+--Aquí utilizamos un INNER JOIN para reemplazar el CiudadID (6) por el nombre real de la ciudad ('Leticia') cruzando los datos con la tabla DimCiudad.
 -- Paso 5: Doble JOIN: ciudad Y producto
 SELECT f.TransaccionID,
     c.Ciudad AS Ciudad,
@@ -66,6 +74,8 @@ FROM FactVentas f
     INNER JOIN DimCiudad c ON f.CiudadID = c.CiudadID
     INNER JOIN DimProducto p ON f.ProductoID = p.ProductoID
 LIMIT 10;
+--Respuesta paso 5:
+--Añadiendo un segundo JOIN con la tabla DimProducto, ahora podemos ver tanto el nombre de la ciudad como el nombre específico del producto para cada transacción.
 -- Paso 6: Doble Agrupación (Ciudad y Producto)
 -- ¿Cuánto vendió cada producto en cada ciudad?
 SELECT c.Ciudad AS Ciudad,
