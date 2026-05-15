@@ -105,6 +105,8 @@ FROM FactVentas f
     INNER JOIN DimCiudad c ON f.CiudadID = c.CiudadID
 GROUP BY c.Ciudad
 ORDER BY Margen_Aproximado ASC;
+--Respuesta paso 6:
+--Sí, dentro de los resultados obtenidos se observa que la ciudad de Leticia presenta un Margen_Aproximado negativo. La pérdida registrada es cercana a -15,35, y dicho valor coincide con la información reflejada en el dashboard de Power BI correspondiente a la sección S4.
 -- ═══════════════════════════════════════════════════════════════
 -- 🚀 PRÁCTICA AUTÓNOMA (ENTREGABLES)
 -- Escribe tus consultas debajo de cada enunciado.
